@@ -81,7 +81,6 @@ laser = {
 	update = function(self)
 		self.x += self.speed.x
 	end
-
 	end
 	draw = function(self)
 		line(self.x, self.y, self.x+self.hitbox.w, self.y, 10)
@@ -225,12 +224,12 @@ function check_for_collision(obj1, obj2)
 	local is_collided_horiz = false
 	local is_collided_vert = false
 	local collision_detected = false
-	if obj1.x + obj1.width > obj2.x and obj2.x + obj2.width > obj1.x then
+	if obj1.x + obj1.hitbox.w > obj2.x and obj2.x + obj2.hitbox.w > obj1.x then
 			is_collided_horiz = true
 		else
 			is_collided_horiz = false
 		end
-		if obj1.y + obj1.height > obj2.y and obj2.y + obj2.height > obj1.y then
+		if obj1.y + obj1.hitbox.y > obj2.y and obj2.y + obj2.hitbox.y > obj1.y then
 			is_collided_vert = true
 		else
 			is_collided_vert = false
