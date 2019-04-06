@@ -100,7 +100,7 @@ add(types, grass)
 
 
 function _init()
-	start_game()
+	game_state = 0
 end
 
 function _update60()
@@ -111,39 +111,40 @@ function _update60()
 	else
 		game_over()
 	end
-	player:update()
-	for laser in all(lasers) do
-		laser:update()
-		--check for collision between lasers and enemies
-		for enemy in all(enemies) do
-			if check_for_collision(laser, enemy) then
-				del(lasers, laser)
-				del(enemies, enemy)
-				sfx(0)
-				score = score + 100
+
+
+	function current_game()
+		player:update()
+		for laser in all(lasers) do
+			laser:update()
+			--check for collision between lasers and enemies
+			for enemy in all(enemies) do
+				if check_for_collision(laser, enemy) then
+					del(lasers, laser)
+					del(enemies, enemy)
+					sfx(0)
+					score = score + 100
+				end
 			end
 		end
-	end
-	--spawn enemies
-	spawn_enemy += 1
-	if spawn_enemy > 40 then
-		add(enemies, make_enemy(136, rnd(122)))
-		spawn_enemy = 0
-	end
-	for enemy in all(enemies) do
-		enemy:update()
-		if check_for_collision(player, enemy) then
-			del(enemies, enemy)
-			lives -= 1
-			sfx(3)
+		--spawn enemies
+		spawn_enemy += 1
+		if spawn_enemy > 40 then
+			add(enemies, make_enemy(136, rnd(122)))
+			spawn_enemy = 0
+		end
+		for enemy in all(enemies) do
+			enemy:update()
+			if check_for_collision(player, enemy) then
+				del(enemies, enemy)
+				lives -= 1
+				sfx(3)
+			end
+		end
+			add(walls, make_wall(140, 10, 4, 4))
+			spawn_enemy = 0
 		end
 	end
-	if spawn_enemy > 39 then
-		add(walls, make_wall(140, 10, 4, 4))
-		spawn_enemy = 0
-	end
-	foreach(walls, update)
-end
 
 function start_game()
 	objects = {}
