@@ -81,7 +81,7 @@ laser = {
 	update = function(self)
 		self.x += self.speed.x
 	end
-	end
+
 	draw = function(self)
 		line(self.x, self.y, self.x+self.hitbox.w, self.y, 10)
 	end
@@ -115,15 +115,16 @@ function _update60()
 
 	function current_game()
 		player:update()
-		for laser in all(lasers) do
-			laser:update()
-			--check for collision between lasers and enemies
-			for enemy in all(enemies) do
-				if check_for_collision(laser, enemy) then
-					del(lasers, laser)
-					del(enemies, enemy)
-					sfx(0)
-					score = score + 100
+			for laser in all(lasers) do
+				laser:update()
+				--check for collision between lasers and enemies
+				for enemy in all(enemies) do
+					if check_for_collision(laser, enemy) then
+						del(lasers, laser)
+						del(enemies, enemy)
+						sfx(0)
+						score = score + 100
+					end
 				end
 			end
 		end
@@ -140,9 +141,6 @@ function _update60()
 				lives -= 1
 				sfx(3)
 			end
-		end
-			add(walls, make_wall(140, 10, 4, 4))
-			spawn_enemy = 0
 		end
 	end
 
